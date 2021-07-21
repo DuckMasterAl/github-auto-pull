@@ -59,4 +59,4 @@ async def user_logging(e):
     return await further_review(request)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=11000, debug=True)
+    app.run(host='0.0.0.0', port=11000, debug=False)
