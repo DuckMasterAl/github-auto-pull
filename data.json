@@ -1,0 +1,8 @@
+{
+  "webhook": "discord webhook here",
+  "github repository id here": {
+    "token": "token to check authentication from github",
+    "folder": "folder to pass into git",
+    "pm2": "name/process number to pass into pm2"
+  }
+}
