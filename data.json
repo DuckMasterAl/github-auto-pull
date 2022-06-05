@@ -1,6 +1,6 @@
 {
-  "webhook": "discord webhook here",
-  "github repository id here": {
+  "bot_token": "Telegram bot token here",
+  "github repository name": {
     "token": "token to check authentication from github",
     "folder": "folder to pass into git",
     "pm2": "name/process number to pass into pm2 (or none to disable)"
