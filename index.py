@@ -36,7 +36,7 @@ async def homepage():
             return abort(403)
     except KeyError:
         return abort(403)
-    
+
     if 'zen' in data:
         commit = "Initial request"
     else:
@@ -45,11 +45,12 @@ async def homepage():
     if data['ref'] != "refs/heads/" + data['repository']['default_branch']:# Make sure this is a commit on the master branch
         return "", 204
 
-    result = subprocess.run(f"git -C {db_data['folder']} pull", stderr=subprocess.PIPE, shell=True)
-    if result.stderr.decode().__contains__("Aborting") is False:
-        await send_message(f"*{data['repository']['full_name']}:* {commit}\nReceived and deployed successfully.", True)
+    try:
+        subprocess.run(f"git -C {db_data['folder']} pull", stderr=subprocess.PIPE, shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        await send_message(f"*{data['repository']['full_name']}:* {commit}\nFailed to deploy successfully.\n\n```\n{e.stderr.decode()}\n```", False)
     else:
-        await send_message(f"*{data['repository']['full_name']}:* {commit}\nFailed to deploy successfully.\n\n```\n{result.stderr.decode()}\n```", False)
+        await send_message(f"*{data['repository']['full_name']}:* {commit}\nReceived and deployed successfully.", True)
 
     if db_data['pm2'] is not None:
         subprocess.run(f"pm2 restart {db_data['pm2']}", shell=True)
