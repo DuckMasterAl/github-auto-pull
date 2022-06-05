@@ -1,4 +1,4 @@
-import subprocess, hmac, hashlib, json, aiohttp, asyncio
+import subprocess, hmac, hashlib, json, aiohttp
 from quart import Quart, request, abort
 
 app = Quart(__name__)
@@ -6,7 +6,7 @@ app = Quart(__name__)
 async def send_message(message, disable_notification):
     async with aiohttp.ClientSession() as session:
         async with session.post(f"https://api.telegram.org/bot{bot_token}/sendMessage", headers={"Content-Type": "application/json"}, data=json.dumps({
-            "chat_id": "",# << Replace with your Telegram chat id
+            "chat_id": chat_id,
             "text": message.replace(".", "\\.").replace("-", "\\-"),
             "disable_notification": disable_notification,
             "parse_mode": "MarkdownV2"
@@ -18,8 +18,12 @@ async def send_message(message, disable_notification):
 
 @app.before_serving
 async def cache_token():
+    data = (json.loads(open('data.json').read()))
     global bot_token
-    bot_token = (json.loads(open('data.json').read()))['bot_token']
+    bot_token = data['bot_token']
+
+    global chat_id
+    chat_id = data['chat_id']
 
 @app.route('/', methods=['GET'])
 async def index():

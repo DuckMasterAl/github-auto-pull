@@ -15,3 +15,8 @@ repos:
     -   id: check-case-conflict
     -   id: pretty-format-json
         args: [--autofix, --no-ensure-ascii, --no-sort-keys, --indent=4]
+
+  - repo: https://github.com/hadialqattan/pycln
+    rev: v1.3.3
+    hooks:
+    -   id: pycln

@@ -1,5 +1,6 @@
 {
     "bot_token": "Telegram bot token here",
+    "chat_id": "Telegram chat id here",
     "github repository name": {
         "token": "token to check authentication from github",
         "folder": "folder to pass into git",
