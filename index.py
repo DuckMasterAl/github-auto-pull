@@ -42,6 +42,9 @@ async def homepage():
     else:
         commit = f"[{data['head_commit']['id'][:7]}]({data['head_commit']['url']})"
 
+    if data['ref'] != "refs/heads/" + data['repository']['default_branch']:# Make sure this is a commit on the master branch
+        return "", 204
+
     result = subprocess.run(f"git -C {db_data['folder']} pull", stderr=subprocess.PIPE, shell=True)
     if result.stderr.decode().__contains__("Aborting") is False:
         await send_message(f"*{data['repository']['full_name']}:* {commit}\nReceived and deployed successfully.", True)
